@@ -1,6 +1,6 @@
 NB: You might find useful the [sample proposal](https://github.com/zamfi/cca-programming-electronics-fall-2017/blob/master/hw/sample-proposal.md) useful in completing this assignment!
 
-# Your Project Title Here
+# IOT Ambient Weather Station
 
 An IOT weather weather station that reacts to for basic weather events and prompts with a color.
 
