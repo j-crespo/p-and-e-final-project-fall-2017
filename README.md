@@ -18,7 +18,7 @@ On the software side of things I am using
 - Particle.Build (web not IDE) interface which communicates with the Photon and receives information from IFTTT (INPUT / OUTPUT)
 - IFTTT.com (If this then that) platform. This allows data to be sent in real time. This is an attractive solution for tracjing variable weather conditions without having to install multiple libraries and sensors. (INPUT)
 
-###Block Diagram
+##Block Diagram
 
 ![Weather Station block diagram] (block_diagram/IMG_2592.JPG)
 
