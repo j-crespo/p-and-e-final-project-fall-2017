@@ -1,0 +1,139 @@
+#include <neopixel.h>
+
+#include "application.h"
+
+SYSTEM_MODE(AUTOMATIC);
+
+// Defines colors (R, G, B)
+#define REDORANGE 255,69,0
+#define CYAN 10,150,70
+#define DEEPPINK 255,20,147
+#define INDIGO 75,0,130
+#define OFF 0,0,0
+
+#define PIXEL_PIN D4
+#define PIXEL_COUNT 24
+#define PIXEL_TYPE WS2812B
+
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE);
+
+int BUTTON_ON = D2;
+int BUTTON_OFF = D3;
+
+int var_BUTTON_ON = 0;
+int var_BUTTON_OFF = 0;
+
+int i = 0;
+int weather = 0;
+
+void setup()
+{
+  // Declare inputs
+  pinMode(BUTTON_ON, INPUT_PULLDOWN);
+  pinMode(BUTTON_OFF, INPUT_PULLDOWN);  
+
+  // register the Particle function
+  Particle.function("Led", LedAansturing);
+  
+  strip.begin();
+  strip.show(); // Initialize all pixels to 'off'
+}
+void loop()
+{
+  var_BUTTON_ON = digitalRead(BUTTON_ON);
+  var_BUTTON_OFF = digitalRead(BUTTON_OFF);
+  
+  if(var_BUTTON_ON == HIGH)
+  {
+    // BUTTON CHANGE
+    weather++;
+    if(weather == 5)
+    {
+        weather = 1;
+    }
+    delay(500);
+  }
+
+  if(var_BUTTON_OFF == HIGH)
+  {
+    // BUTTON UIT
+    weather = 0;
+    delay(500);
+  }
+  
+  // weather functions
+  if(weather == 1)
+  {
+    // RAIN
+    
+    for(i=0; i < PIXEL_COUNT; i++) {
+      strip.setPixelColor(i, CYAN);
+    }
+    strip.show();
+  }
+  
+ if(weather == 2)
+  {
+    // HOT  
+    for(i=0; i < PIXEL_COUNT; i++) {
+      strip.setPixelColor(i, REDORANGE);
+    }
+    strip.show();
+  }
+  
+  if(weather == 3)
+  {
+    // CLOUDY
+    for(i=0; i < PIXEL_COUNT; i++) {
+      strip.setPixelColor(i, INDIGO);
+    }
+    strip.show();
+  }
+  
+  if(weather == 4)
+  {
+    // PERFECT
+    for(i=0; i < PIXEL_COUNT; i++) {
+      strip.setPixelColor(i, DEEPPINK);
+    }
+    strip.show();
+  }
+
+  if(weather == 0)
+  {
+    // OFF
+    for(i=0; i < PIXEL_COUNT; i++) {
+      strip.setPixelColor(i, OFF);
+    }
+    strip.show();
+  }
+}
+
+// this function automatically shows up in IFTTT
+int LedAansturing(String command)
+{
+  if(command == "RAIN")
+  {
+    weather = 1;
+  }
+  
+ if(command == "HOT")
+  {
+    weather = 2;
+  }
+  
+  if(command == "CLOUDY")
+  {
+    weather = 3;
+  }
+  
+  if(command == "PERFECT")
+  {
+    weather = 4;
+  }
+
+  if(command == "OFF")
+  {
+    weather = 0;
+  }
+}
